@@ -1,0 +1,36 @@
+---
+- name: Create PostgreSQL table and insert data
+  hosts: pg_server.postgres.database.azure.com
+  become: yes
+  vars:
+    db_name: mydb
+    table_name: inventory
+    db_user : admin
+    db_password: '{{ lookup("env", "PASSWORD") }}'
+    port: 5432
+  tasks:
+    - name: Ensure PostgreSQL database exists
+      postgresql_db:
+        name: "{{ db_name }}"
+        login_user: "{{db_user}}"
+        login_password: "{{ db_password}}"
+        login_host: "{{ host}}"
+        port: "{{port}}"
+        state: present
+    - name: Create PostgreSQL table
+      postgresql_query:
+        db: "{{ db_name }}"
+        login_user: "{{db_user}}"
+        login_password: "{{ db_password}}"
+        login_host: "{{ host}}"
+        port: "{{port}}"
+        query: "CREATE TABLE IF NOT EXISTS {{ table_name }} (id SERIAL PRIMARY KEY, name VARCHAR(255));"
+
+    - name: Insert sample data into PostgreSQL table
+      postgresql_query:
+        db: "{{ db_name }}"
+        login_user: "{{db_user}}"
+        login_password: "{{ db_password}}"
+        login_host: "{{ host}}"
+        port: "{{port}}"
+        query: "INSERT INTO {{ table_name }} (name) VALUES ('SampleData1'), ('SampleData2'), ('SampleData3');"
