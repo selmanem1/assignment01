@@ -1,7 +1,7 @@
 FROM python:3.10.8-slim
 
 WORKDIR /app
-COPY  ./frontend .
+COPY  ./backend .
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -9,6 +9,6 @@ RUN apt-get update \
 
 COPY requirements.txt .
 RUN pip --disable-pip-version-check install -r requirements.txt
-EXPOSE 8080
+EXPOSE 5001
 
 CMD ["python", "app.py"]

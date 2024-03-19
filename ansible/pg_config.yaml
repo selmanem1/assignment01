@@ -4,7 +4,7 @@
   become: yes
   vars:
     db_name: mydb
-    table_name: inventory
+    table_name: students
     db_user : admin
     db_password: '{{ lookup("env", "PASSWORD") }}'
     port: 5432
@@ -24,7 +24,7 @@
         login_password: "{{ db_password}}"
         login_host: "{{ host}}"
         port: "{{port}}"
-        query: "CREATE TABLE IF NOT EXISTS {{ table_name }} (id SERIAL PRIMARY KEY, name VARCHAR(255));"
+        query: "CREATE TABLE IF NOT EXISTS {{ table_name }} (id SERIAL PRIMARY KEY,  name VARCHAR(100),address VARCHAR(255),city VARCHAR(100),pincode VARCHAR(20));"
 
     - name: Insert sample data into PostgreSQL table
       postgresql_query:
@@ -33,4 +33,4 @@
         login_password: "{{ db_password}}"
         login_host: "{{ host}}"
         port: "{{port}}"
-        query: "INSERT INTO {{ table_name }} (name) VALUES ('SampleData1'), ('SampleData2'), ('SampleData3');"
+        query: "INSERT INTO {{ table_name }} (name, address, city, pincode) VALUES ('student1','address1','city1','1234'),('student2','address2','city2','5678');"

@@ -1,4 +1,5 @@
 Flask==3.0.2
+psycopg2-binary
 render_template
 request
 redirect

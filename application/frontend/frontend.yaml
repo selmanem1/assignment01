@@ -15,14 +15,12 @@ spec:
     spec:
       containers:
         - name: frontend-container
-          image: frontend:latest
+          image: devacr.azurecr.io/frontend:latest
           ports:
           - containerPort: 8080
           env:
-          - name: PORT
-            value: "8080"
-          - name: BACKEND_SERVICE_ADDR
-            value: "backendservice:9090"
+          - name: BACKEND_URL
+            value: "http://backend:5001"
           resources:
             requests:
               cpu: 100m
